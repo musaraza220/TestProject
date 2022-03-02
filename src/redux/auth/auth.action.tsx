@@ -1,0 +1,17 @@
+/* 
+     AUTHOR: KHURAM HASEEB
+    SUMMARY: ITS AUTHENTICATION ACTION FILE THAT HAVE FUNCTIONS USED 
+             IN DIFFERENT COMPONENT TO CALL THE SAGA
+*/
+
+// IMPORT THE CONST FILE THAT HAVE ALL VALUES OF CONSTANT DEFINE
+import actionType from './auth.constant';
+
+// GET GMAIL DATA BY PASSING THE USER INFORMATION
+export function getGmailData(params: any) {
+  return {
+    type: actionType.LOGIN_GMAIL_REQUEST,
+    params
+  };
+}
+

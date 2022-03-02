@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-
+import { useSelector, useDispatch } from 'react-redux';
 const styles = StyleSheet.create({
   button: {
     width: 100,
@@ -17,21 +17,25 @@ const styles = StyleSheet.create({
     margin: 3
   }
 });
+type MyProps = {
+};
+type MyState = {
 
-export default class ApiTester extends Component {
-  constructor(props) {
-    super(props);
-  }
+};
+
+export default class ApiTester extends Component<MyProps, MyState> {
+
 
   render() {
-    const { apiMsg, apiRequest } = this.props;
+    const data = useSelector(state => state)
+    const dispatch = useDispatch()
 
     return (
       <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-        <TouchableOpacity onPress={() => apiRequest({ section_id: 1 })} style={styles.button}>
+        <TouchableOpacity onPress={() => dispatch({ type: "LOGIN_GMAIL_REQUEST" })} style={styles.button}>
           <Text>Api Request</Text>
         </TouchableOpacity>
-        <Text>{apiMsg}</Text>
+        <Text>{data}</Text>
       </View>
     );
   }
