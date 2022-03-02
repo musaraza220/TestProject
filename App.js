@@ -1,17 +1,31 @@
 
-import Main from './src'
-import { NavigationContainer } from '@react-navigation/native';
+import React, { Component } from 'react';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { Provider } from 'react-redux';
+import saga from 'redux-saga';
 
+import * as reducers from './src/reducers';
+import sagaRoot from './src/sagas';
+import Home from './src/Home/screens/Home';
 
-const App = () => {
+const middlewares = [];
+const reducer = combineReducers(reducers);
+const sagaMiddleware = saga();
 
-  return (
-    <NavigationContainer>
-      <Main />
-    </NavigationContainer>
-  );
-};
+middlewares.push(sagaMiddleware);
 
+const store = createStore(
+  reducer,
+  applyMiddleware(...middlewares)
+);
+sagaMiddleware.run(sagaRoot);
 
-
-export default App;
+export default class App extends Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <Home />
+      </Provider>
+    );
+  }
+}

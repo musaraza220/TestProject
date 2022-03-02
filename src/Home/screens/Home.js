@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
     SafeAreaView,
     Dimensions,
@@ -8,10 +8,10 @@ import {
     View,
     Image
 } from 'react-native';
-
-import { getTodo } from '../apis';
-
-const Home = () => {
+import { connect } from 'react-redux';
+import ApiTester from '../../components/apiTester'
+import * as appActions from '../../actions';
+const Home = (props) => {
 
     const isDarkMode = useColorScheme() === 'dark';
 
@@ -20,12 +20,7 @@ const Home = () => {
         padding: 10
     };
 
-    ///call function to get data from api.
-    const getData = async () => {
-        const result = await getTodo()
-        console.log("Fetched Dummy Data ", result)
-    }
-
+    const { state, actions } = props;
     return (
         <SafeAreaView style={backgroundStyle}>
             <View style={styles.userNameStyle}>
@@ -49,6 +44,11 @@ const Home = () => {
                 <Text>Vectory Illustration</Text>
                 <Text style={{ color: 'lightgray' }}>#17372</Text>
             </View>
+
+            <ApiTester
+                apiMsg={state.apiTester.apiMsg}
+                {...actions}
+            />
         </SafeAreaView>
     );
 };
@@ -81,5 +81,16 @@ const styles = StyleSheet.create({
         marginBottom: 10
     }
 });
+function mapStateToProps(state) {
+    return {
+        state: state
+    };
+}
 
-export default Home;
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(appActions.actions, dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
